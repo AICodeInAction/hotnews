@@ -28,7 +28,7 @@ def job():
     
     try:
         # 爬取所有平台
-        results = crawl_all_platforms(concurrent=True)
+        results = crawl_all_platforms(use_concurrent=True)
         
         # 打印摘要
         print_summary(results)

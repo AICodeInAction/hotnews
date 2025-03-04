@@ -1,12 +1,13 @@
+from config.config import CrawlerConfig
 from crawlers.zhihu_crawler import ZhihuCrawler
 from crawlers.weibo_crawler import WeiboCrawler
 from crawlers.bilibili_crawler import BilibiliCrawler
 from crawlers.baidu_crawler import BaiduCrawler
-from crawlers.kr36_crawler import Kr36Crawler
+from crawlers.thirtysixkr_crawler import ThirtySixKrCrawler
 from crawlers.douyin_crawler import DouyinCrawler
 from crawlers.hupu_crawler import HupuCrawler
 from crawlers.douban_crawler import DoubanCrawler
-from crawlers.it_news_crawler import ItNewsCrawler
+from crawlers.it_news_crawler import ITNewsCrawler
 import logging
 
 logger = logging.getLogger("HotNews.Factory")
@@ -19,11 +20,11 @@ class CrawlerFactory:
         "weibo": WeiboCrawler,
         "bilibili": BilibiliCrawler,
         "baidu": BaiduCrawler,
-        "36kr": Kr36Crawler,
+        "36kr": ThirtySixKrCrawler,
         "douyin": DouyinCrawler,
         "hupu": HupuCrawler,
         "douban": DoubanCrawler,
-        "it_news": ItNewsCrawler
+        "it_news": ITNewsCrawler
     }
     
     @staticmethod
@@ -63,4 +64,40 @@ class CrawlerFactory:
     @staticmethod
     def available_platforms():
         """获取所有可用的平台名称"""
-        return list(CrawlerFactory._crawlers.keys()) 
+        return [platform for platform, config in CrawlerConfig.PLATFORMS.items() if config.get("enabled", False)]
+    
+    @staticmethod
+    def create_crawler(platform):
+        """创建爬虫实例"""
+        if platform == "zhihu":
+            return ZhihuCrawler()
+        elif platform == "weibo":
+            return WeiboCrawler()
+        elif platform == "bilibili":
+            return BilibiliCrawler()
+        elif platform == "baidu":
+            return BaiduCrawler()
+        elif platform == "36kr":
+            return ThirtySixKrCrawler()
+        elif platform == "douyin":
+            return DouyinCrawler()
+        elif platform == "hupu":
+            return HupuCrawler()
+        elif platform == "douban":
+            return DoubanCrawler()
+        elif platform == "it_news":
+            return ITNewsCrawler()
+        else:
+            raise ValueError(f"不支持的平台: {platform}")
+    
+    @staticmethod
+    def create_all_crawlers():
+        """创建所有启用的爬虫实例"""
+        crawlers = []
+        for platform in CrawlerFactory.available_platforms():
+            try:
+                crawler = CrawlerFactory.create_crawler(platform)
+                crawlers.append(crawler)
+            except Exception as e:
+                print(f"创建 {platform} 爬虫实例失败: {str(e)}")
+        return crawlers 
