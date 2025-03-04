@@ -1,0 +1,70 @@
+# 环境变量文件
+.env
+.env.*
+!.env.example
+
+# Python 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# Python 编译文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 日志文件
+*.log
+logs/
+crawler_*.log
+hotnews_*.log
+scheduler_*.log
+
+# 数据文件目录
+data/
+*.json
+*.csv
+proxies.txt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDE 相关
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Selenium 和 Playwright 相关
+.wdm/
+.playwright-browser/
+node_modules/
+
+# MongoDB 本地数据
+data/db/
+
+# 其他临时文件
+.coverage
+htmlcov/
+.pytest_cache/
+coverage.xml
+*.cover 
